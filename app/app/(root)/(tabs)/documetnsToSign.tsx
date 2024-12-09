@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 
-const CustomersScreen = () => {
+const documetnsToSignScreen = () => {
   return <View></View>;
 };
 
-export default CustomersScreen;
+export default documetnsToSignScreen;

@@ -1,6 +1,6 @@
 import InputField from "@/components/InputField";
 import React from "react";
-import { SafeAreaView, Text, ScrollView, View, Button, Alert, Image } from "react-native";
+import { SafeAreaView, View, Button, Alert, Image } from "react-native";
 import { FormProvider, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { LoginRequest } from "@/models/user/user.model";
 import { useAuth } from "@/context/AuthContext";
@@ -13,7 +13,7 @@ const SignInScreen = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
     try {
       await onLogin!(data);
-      router.replace("/(root)/(tabs)/calendar");
+      router.replace("/(root)/(tabs)/documetnsToSign");
     } catch (error: any) {
       Alert.alert("Login failed", error.message);
     }
