@@ -9,7 +9,7 @@ type User struct {
 	FirstName      string    `gorm:"size:100" json:"first_name"`
 	LastName       string    `gorm:"size:100" json:"last_name"`
 	RefreshToken   string    `gorm:"size:255" json:"-"`
-	PublicKey      string    `gorm:"size:255" json:"public_key"`
+	Address        string    `gorm:"size:255" json:"address"`
 	PrivateKeyHash string    `gorm:"size:255" json:"private_key_hash"`
 	CreatedAt      time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt      time.Time `gorm:"autoUpdateTime" json:"updated_at"`

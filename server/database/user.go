@@ -1,10 +1,46 @@
 package database
 
 import (
+	"fmt"
+	model "server/model"
+	model_bsv "server/model/bsv"
 	model_user "server/model/user"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
+
+func (p *Postgres) CreateUser(req model_user.CreateUserRequest, wallet model_bsv.CreateWallet) (*model.CreateElementResponse, error) {
+	userExists, err := p.userExists(req.Email)
+	if err != nil {
+		return nil, err
+	}
+
+	if userExists {
+		return nil, fmt.Errorf("user with email %s already exists", req.Email)
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, fmt.Errorf("failed to hash password: %v", err)
+	}
+
+	user := model_user.User{
+		Email:          req.Email,
+		Password:       string(hashedPassword),
+		FirstName:      req.FirstName,
+		LastName:       req.LastName,
+		Address:        wallet.Address,
+		PrivateKeyHash: wallet.Key,
+	}
+
+	res := p.db.Create(&user)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return &model.CreateElementResponse{Id: user.Id}, nil
+}
 
 func (p *Postgres) GetUserById(id string) (*model_user.User, error) {
 	var user model_user.User
