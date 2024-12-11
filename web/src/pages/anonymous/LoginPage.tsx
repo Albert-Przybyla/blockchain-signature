@@ -1,6 +1,5 @@
-import { CreateUserFormSchema } from "@/components/schemas/createUserFormSchema";
+import { CreateUserModel } from "@/schemas/createUserFormSchema";
 import CreateUserForm from "../../forms/CreateUserForm";
-import { z } from "zod";
 import { Step, Stepper } from "react-form-stepper";
 import StepWizard from "react-step-wizard";
 import { useState } from "react";
@@ -11,7 +10,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   let stepWizardInstance: any = null;
 
-  const onFinish = (v: z.infer<typeof CreateUserFormSchema>) => {
+  const onFinish = (v: CreateUserModel) => {
     console.log("Dane formularza:", v);
     setPassword(v.password);
     goToNextStep();

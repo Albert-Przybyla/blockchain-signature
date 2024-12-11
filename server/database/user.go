@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	model "server/model"
 	model_bsv "server/model/bsv"
 	model_user "server/model/user"
 
@@ -10,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (p *Postgres) CreateUser(req model_user.CreateUserRequest, wallet model_bsv.CreateWallet) (*model.CreateElementResponse, error) {
+func (p *Postgres) CreateUser(req model_user.CreateUserRequest, wallet model_bsv.CreateWallet) (*model_user.User, error) {
 	userExists, err := p.userExists(req.Email)
 	if err != nil {
 		return nil, err
@@ -39,7 +38,7 @@ func (p *Postgres) CreateUser(req model_user.CreateUserRequest, wallet model_bsv
 		return nil, res.Error
 	}
 
-	return &model.CreateElementResponse{Id: user.Id}, nil
+	return &user, nil
 }
 
 func (p *Postgres) GetUserById(id string) (*model_user.User, error) {
